@@ -11,6 +11,9 @@ import org.junit.jupiter.params.provider.ValueSource;
 
 class AppTest {
 
+    private static final String KEY = "blah";
+    private static final String VALUE = "blech";
+
     @Test
     void arraycopy() {
         int[] source = { 0, 1, 2 };
@@ -23,11 +26,11 @@ class AppTest {
 
     @Test
     void clearProperty() {
-        System.setProperty("blah", "blech");
-        Assertions.assertEquals("blech", System.getProperty("blah"));
+        System.setProperty(KEY, VALUE);
+        Assertions.assertEquals(VALUE, System.getProperty(KEY));
 
-        System.clearProperty("blah");
-        assertNull(System.getProperty("blah"));
+        System.clearProperty(KEY);
+        assertNull(System.getProperty(KEY));
 
         assertThrows(NullPointerException.class, () -> System.clearProperty(null));
         assertThrows(IllegalArgumentException.class, () -> System.clearProperty(""));
@@ -36,18 +39,35 @@ class AppTest {
     @ParameterizedTest
     @ValueSource(strings = { "PATH", "foo" })
     void getenv(String env) {
-        if ("foo".equals(env))
+        if ("foo".equals(env)) {
             assertNull(System.getenv(env));
-        else
+        } else {
             assertNotNull(System.getenv(env));
+        }
+        assertNotNull(System.getenv());
+    }
+
+    @Test
+    void getProperty() {
+        System.setProperty(KEY, VALUE);
+        assertEquals(VALUE, System.getProperty(KEY));
+
+        assertThrows(NullPointerException.class, () -> System.getProperty(null));
+        assertThrows(IllegalArgumentException.class, () -> System.getProperty(""));
     }
 
     @Test
     void setProperty() {
-        System.setProperty("blah", "blech");
+        System.setProperty(KEY, VALUE);
+        assertEquals(VALUE, System.getProperty(KEY));
 
-        assertEquals("blech", System.getProperty("blah"));
         assertThrows(NullPointerException.class, () -> System.setProperty(null, null));
         assertThrows(IllegalArgumentException.class, () -> System.setProperty("", ""));
+    }
+
+    @Test
+    void lineSeparator() {
+        String expectedSeparator = System.getProperty("os.name").toLowerCase().contains("win") ? "\r\n" : "\n";
+        assertEquals(expectedSeparator, System.lineSeparator());
     }
 }
