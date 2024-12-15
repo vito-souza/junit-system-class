@@ -1,3 +1,9 @@
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -12,7 +18,7 @@ class AppTest {
 
         System.arraycopy(source, 0, destination, 0, source.length);
 
-        Assertions.assertArrayEquals(new int[] { 0, 1, 2 }, destination);
+        assertArrayEquals(new int[] { 0, 1, 2 }, destination);
     }
 
     @Test
@@ -21,18 +27,27 @@ class AppTest {
         Assertions.assertEquals("blech", System.getProperty("blah"));
 
         System.clearProperty("blah");
-        Assertions.assertNull(System.getProperty("blah"));
+        assertNull(System.getProperty("blah"));
 
-        Assertions.assertThrows(NullPointerException.class, () -> System.clearProperty(null));
-        Assertions.assertThrows(IllegalArgumentException.class, () -> System.clearProperty(""));
+        assertThrows(NullPointerException.class, () -> System.clearProperty(null));
+        assertThrows(IllegalArgumentException.class, () -> System.clearProperty(""));
     }
 
     @ParameterizedTest
     @ValueSource(strings = { "PATH", "foo" })
     void getenv(String env) {
         if ("foo".equals(env))
-            Assertions.assertNull(System.getenv(env));
+            assertNull(System.getenv(env));
         else
-            Assertions.assertNotNull(System.getenv(env));
+            assertNotNull(System.getenv(env));
+    }
+
+    @Test
+    void setProperty() {
+        System.setProperty("blah", "blech");
+
+        assertEquals("blech", System.getProperty("blah"));
+        assertThrows(NullPointerException.class, () -> System.setProperty(null, null));
+        assertThrows(IllegalArgumentException.class, () -> System.setProperty("", ""));
     }
 }
