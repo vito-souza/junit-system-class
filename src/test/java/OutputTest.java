@@ -19,7 +19,7 @@ class OutputTest {
                 "Hi!",
                 "",
                 null,
-                "Hello, " + System.lineSeparator() + "World!");
+                "Hello, /" + System.lineSeparator() + "World!");
     }
 
     @BeforeEach
