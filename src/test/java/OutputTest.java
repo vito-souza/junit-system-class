@@ -16,11 +16,7 @@ class OutputTest {
     private final PrintStream out = System.out;
 
     static Stream<String> strings() {
-        return Stream.of(
-                "Hi!",
-                "",
-                null,
-                "Hello, " + System.lineSeparator() + "World!");
+        return Stream.of("Hi!", "", null, "Hello, " + System.lineSeparator() + "World!");
     }
 
     @BeforeEach

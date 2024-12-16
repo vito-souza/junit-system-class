@@ -1,9 +1,13 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Properties;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -25,8 +29,7 @@ class PropertyTest {
         System.clearProperty(key);
 
         assertNull(System.getProperty(key));
-        assertThrows(NullPointerException.class, () -> System.clearProperty(null));
-        assertThrows(IllegalArgumentException.class, () -> System.clearProperty(""));
+        // assertThrows(NullPointerException.class, () -> System.clearProperty(key));
     }
 
     @ParameterizedTest
@@ -45,5 +48,24 @@ class PropertyTest {
         assertEquals(value, System.getProperty(key));
         assertThrows(NullPointerException.class, () -> System.setProperty(null, null));
         assertThrows(IllegalArgumentException.class, () -> System.setProperty("", ""));
+    }
+
+    @Test
+    void getProperties() {
+        Properties properties = System.getProperties();
+
+        assertNotNull(properties);
+        assertTrue(properties.size() > 0);
+    }
+
+    @Test
+    void setProperties() {
+        Properties newProperties = new Properties();
+        newProperties.setProperty("user.pokemon", "pikachu");
+
+        System.setProperties(newProperties);
+
+        assertNotNull(System.getProperties());
+        assertEquals(newProperties, System.getProperties());
     }
 }

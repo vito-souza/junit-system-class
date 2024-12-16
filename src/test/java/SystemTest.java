@@ -1,6 +1,7 @@
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -27,5 +28,12 @@ class SystemTest {
 			assertNotNull(System.getenv(env));
 		}
 		assertNotNull(System.getenv());
+	}
+
+	@Test
+	void currentTimeMillis() throws InterruptedException {
+		long time = System.currentTimeMillis();
+		Thread.sleep(50);
+		assertTrue(System.currentTimeMillis() > time);
 	}
 }
