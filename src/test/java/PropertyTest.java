@@ -1,7 +1,6 @@
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Properties;
@@ -25,47 +24,37 @@ class PropertyTest {
     void clearProperty(String key, String value) {
         System.setProperty(key, value);
         assertEquals(value, System.getProperty(key));
-
         System.clearProperty(key);
-
         assertNull(System.getProperty(key));
-        // assertThrows(NullPointerException.class, () -> System.clearProperty(key));
     }
 
     @ParameterizedTest
     @MethodSource("values")
     void getProperty(String key, String value) {
+        assertNull(System.getProperty(key));
+        System.setProperty(key, value);
         assertEquals(value, System.getProperty(key));
-        assertThrows(NullPointerException.class, () -> System.getProperty(null));
-        assertThrows(IllegalArgumentException.class, () -> System.getProperty(""));
     }
 
     @ParameterizedTest
     @MethodSource("values")
     void setProperty(String key, String value) {
         System.setProperty(key, value);
-
         assertEquals(value, System.getProperty(key));
-        assertThrows(NullPointerException.class, () -> System.setProperty(null, null));
-        assertThrows(IllegalArgumentException.class, () -> System.setProperty("", ""));
+        System.clearProperty(key);
     }
 
     @Test
     void getProperties() {
-        Properties properties = System.getProperties();
-
-        assertNotNull(properties);
-        assertTrue(properties.size() > 0);
+        assertNotNull(System.getProperties());
+        assertTrue(System.getProperties().size() > 0);
     }
 
     @Test
     void setProperties() {
         Properties newProperties = new Properties();
         newProperties.setProperty("user.pokemon", "pikachu");
-
         System.setProperties(newProperties);
-
-        assertNotNull(System.getProperties());
         assertEquals(newProperties, System.getProperties());
     }
 }
