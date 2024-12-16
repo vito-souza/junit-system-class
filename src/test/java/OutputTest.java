@@ -14,8 +14,12 @@ class OutputTest {
     private final ByteArrayOutputStream newOut = new ByteArrayOutputStream();
     private final PrintStream out = System.out;
 
-    static Stream<String> provideStrings() {
-        return Stream.of("Hello", "", null);
+    static Stream<String> strings() {
+        return Stream.of(
+                "Hi!",
+                "",
+                null,
+                "Hello, " + System.lineSeparator() + "World!");
     }
 
     @BeforeEach
@@ -24,18 +28,14 @@ class OutputTest {
     }
 
     @AfterEach
-    public void restoreSystemOut() {
+    public void tearDown() {
         System.setOut(out);
     }
 
     @ParameterizedTest
-    @MethodSource("provideStrings")
-    void out(String message) {
+    @MethodSource("strings")
+    void sysout(String message) {
         System.out.print(message);
-
-        if (message == null)
-            assertEquals("null", newOut.toString());
-        else
-            assertEquals(message, newOut.toString());
+        assertEquals(message == null ? "null" : message, newOut.toString());
     }
 }

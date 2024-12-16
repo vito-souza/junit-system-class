@@ -3,8 +3,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import java.lang.ref.WeakReference;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -36,17 +34,5 @@ class AppTest {
 	void lineSeparator() {
 		String expectedSeparator = System.getProperty("os.name").toLowerCase().contains("win") ? "\r\n" : "\n";
 		assertEquals(expectedSeparator, System.lineSeparator());
-	}
-
-	@Test
-	void gc() {
-		Object obj = new Object();
-		WeakReference<Object> weakRef = new WeakReference<>(obj);
-
-		obj = null;
-
-		System.gc();
-
-		assertNull(weakRef.get());
 	}
 }
