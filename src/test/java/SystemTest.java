@@ -1,5 +1,4 @@
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -28,11 +27,5 @@ class SystemTest {
 			assertNotNull(System.getenv(env));
 		}
 		assertNotNull(System.getenv());
-	}
-
-	@Test
-	void lineSeparator() {
-		String expectedSeparator = System.getProperty("os.name").toLowerCase().contains("win") ? "\r\n" : "\n";
-		assertEquals(expectedSeparator, System.lineSeparator());
 	}
 }

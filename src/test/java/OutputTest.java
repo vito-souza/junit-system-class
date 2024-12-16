@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 
@@ -19,7 +20,7 @@ class OutputTest {
                 "Hi!",
                 "",
                 null,
-                "Hello, /" + System.lineSeparator() + "World!");
+                "Hello, " + System.lineSeparator() + "World!");
     }
 
     @BeforeEach
@@ -37,5 +38,11 @@ class OutputTest {
     void sysout(String message) {
         System.out.print(message);
         assertEquals(message == null ? "null" : message, newOut.toString());
+    }
+
+    @Test
+    void lineSeparator() {
+        String expectedSeparator = System.getProperty("os.name").toLowerCase().contains("win") ? "\r\n" : "\n";
+        assertEquals(expectedSeparator, System.lineSeparator());
     }
 }
