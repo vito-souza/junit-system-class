@@ -1,6 +1,5 @@
 package old;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -12,16 +11,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
 class SystemTest {
-
-	@Test
-	void arraycopy() {
-		int[] source = { 0, 1, 2 };
-		int[] destination = new int[3];
-
-		System.arraycopy(source, 0, destination, 0, source.length);
-
-		assertArrayEquals(new int[] { 0, 1, 2 }, destination);
-	}
 
 	@ParameterizedTest
 	@ValueSource(strings = { "PATH", "foo" })

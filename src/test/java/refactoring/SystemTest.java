@@ -53,10 +53,16 @@ class SystemTest {
 	}
 
 	@Test
-	void timeAtTheEndShouldBeGreater() {
+	void shouldReturnIncreasingTimeInNanoseconds() {
 		long t0 = System.nanoTime();
 		long t1 = System.nanoTime();
-
 		assertTrue(t1 > t0);
+	}
+
+	@Test
+	void shouldReturnIncreasingTimeInMilliseconds() {
+		long t0 = System.currentTimeMillis();
+		long t1 = System.currentTimeMillis();
+		assertTrue(t1 >= t0);
 	}
 }
