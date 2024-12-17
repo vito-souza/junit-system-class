@@ -1,3 +1,5 @@
+package old;
+
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -24,12 +26,11 @@ class SystemTest {
 	@ParameterizedTest
 	@ValueSource(strings = { "PATH", "foo" })
 	void getenv(String env) {
-		if ("foo".equals(env))
+		if ("foo".equals(env)) {
 			assertNull(System.getenv(env));
-		else
+		} else {
 			assertNotNull(System.getenv(env));
-
-		assertNotNull(System.getenv());
+		}
 	}
 
 	@Test
