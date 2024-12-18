@@ -65,6 +65,14 @@ class SystemTest {
 	}
 
 	@Test
+	void shouldInitializeSystemProperties() {
+		System.setProperties(null);
+
+		assertNotNull(System.getProperties());
+		assertNotNull(System.getProperty("os.name"));
+	}
+
+	@Test
 	void shouldIdentifyObjectHashcode() {
 		assertEquals(System.identityHashCode(SystemData.OBJ_ONE), System.identityHashCode(SystemData.OBJ_THREE));
 		assertNotEquals(System.identityHashCode(SystemData.OBJ_ONE), System.identityHashCode(SystemData.OBJ_TWO));
@@ -92,5 +100,16 @@ class SystemTest {
 		assertThrows(ClassCastException.class, () -> {
 			env.get(10);
 		});
+	}
+
+	@Test
+	void shouldAlwaysReturnSystemDependentLineSeparator() {
+		System.setProperty("line.separator", SystemData.WIN_LINE_SEPARATOR.getValue());
+		assertEquals(System.lineSeparator(), SystemData.UNIX_LINE_SEPARATOR.getValue());
+	}
+
+	@Test
+	void shouldContainSpecificSystemEnvVariable() {
+		assertTrue(System.getenv().containsKey("GMAIL_USERNAME"));
 	}
 }
