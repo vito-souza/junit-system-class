@@ -15,6 +15,11 @@ public enum SystemData {
 	static final int[] INT_DESTINATION_ARRAY = new int[3];
 	static final double[] DOUBLE_DESTINATION_ARRAY = new double[3];
 
+	static final Object OBJ_ONE = new Object();
+	static final Object OBJ_TWO = new Object();
+	static final Object OBJ_THREE = OBJ_ONE;
+	static final Object NULL_OBJECT = null;
+
 	private final String value;
 
 	SystemData(String value) {

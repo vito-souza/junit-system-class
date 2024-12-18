@@ -1,11 +1,15 @@
 package refactoring;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.PrintStream;
+import java.util.Map;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -53,16 +57,40 @@ class SystemTest {
 	}
 
 	@Test
-	void shouldReturnIncreasingTimeInNanoseconds() {
-		long t0 = System.nanoTime();
-		long t1 = System.nanoTime();
-		assertTrue(t1 > t0);
+	void shouldInitializeSystemPropertiesWhenNoneExist() {
+		System.setProperties(null);
+
+		assertNotNull(System.getProperties());
+		assertTrue(System.getProperties().containsKey("user.name"));
 	}
 
 	@Test
-	void shouldReturnIncreasingTimeInMilliseconds() {
-		long t0 = System.currentTimeMillis();
-		long t1 = System.currentTimeMillis();
-		assertTrue(t1 >= t0);
+	void shouldIdentifyObjectHashcode() {
+		assertEquals(System.identityHashCode(SystemData.OBJ_ONE), System.identityHashCode(SystemData.OBJ_THREE));
+		assertNotEquals(System.identityHashCode(SystemData.OBJ_ONE), System.identityHashCode(SystemData.OBJ_TWO));
+	}
+
+	@Test
+	void shouldReturnZeroWhenIdentifyingHashCodeOfNullReference() {
+		assertEquals(0, System.identityHashCode(SystemData.NULL_OBJECT));
+	}
+
+	@Test
+	void shouldThrowNullPointerExceptionWhenAttemptingToQueryPresenceOfNullKey() {
+		Map<String, String> env = System.getenv();
+
+		assertThrows(NullPointerException.class, () -> {
+			env.get(null);
+		});
+	}
+
+	@SuppressWarnings("unlikely-arg-type")
+	@Test
+	void shouldThrowClassCastExceptionWhenAttemptingToQueryValueThatIsNotString() {
+		Map<String, String> env = System.getenv();
+
+		assertThrows(ClassCastException.class, () -> {
+			env.get(10);
+		});
 	}
 }
