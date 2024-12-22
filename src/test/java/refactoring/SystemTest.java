@@ -8,6 +8,8 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Map;
 
@@ -130,5 +132,18 @@ class SystemTest {
 			path = SystemData.PATH_ENV;
 			assertTrue(path.contains(SystemData.UNIX_PATH_SEPARATOR.getValue()));
 		}
+	}
+
+	@Test
+	void shouldReturnCorrectFileSeparatorInAbsolutePath() throws IOException {
+		File file = File.createTempFile("temp", ".tmp");
+
+		if (SystemData.OS_NAME.contains("win")) {
+			assertTrue(file.getAbsolutePath().contains(SystemData.WIN_FILE_SEPARATOR.getValue()));
+		} else {
+			assertTrue(file.getAbsolutePath().contains(SystemData.UNIX_FILE_SEPARATOR.getValue()));
+		}
+
+		file.delete();
 	}
 }

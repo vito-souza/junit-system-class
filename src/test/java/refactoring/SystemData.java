@@ -21,7 +21,7 @@ public enum SystemData {
 	public static final Object NULL_OBJECT = null;
 
 	public static final String PATH_ENV = System.getenv("PATH");
-	public static final String OS_NAME = System.getProperty("os.name");
+	public static final String OS_NAME = System.getProperty("os.name").toLowerCase();
 
 	private final String value;
 
