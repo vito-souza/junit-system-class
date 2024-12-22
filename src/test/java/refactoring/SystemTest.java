@@ -122,6 +122,13 @@ class SystemTest {
 	}
 
 	@Test
+	void shouldReturnSameValueForConsecutiveCallsWithinGranularity() {
+		long firstCall = System.currentTimeMillis();
+		long secondCall = System.currentTimeMillis();
+		assertEquals(secondCall, firstCall);
+	}
+
+	@Test
 	void shouldContainSystemDependentPathSeparator() {
 		String path;
 
