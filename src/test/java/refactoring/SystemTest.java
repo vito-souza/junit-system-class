@@ -121,7 +121,14 @@ class SystemTest {
 
 	@Test
 	void shouldContainSystemDependentPathSeparator() {
-		String path = SystemData.PATH_ENV.getValue().replaceAll(":", "");
-		assertTrue(path.contains(SystemData.WIN_FILE_SEPARATOR.getValue()));
+		String path;
+
+		if (SystemData.OS_NAME.contains("win")) {
+			path = SystemData.PATH_ENV.replaceAll(":", "");
+			assertTrue(path.contains(SystemData.WIN_PATH_SEPARATOR.getValue()));
+		} else {
+			path = SystemData.PATH_ENV;
+			assertTrue(path.contains(SystemData.UNIX_PATH_SEPARATOR.getValue()));
+		}
 	}
 }
