@@ -34,7 +34,7 @@ class SystemTest {
 	}
 
 	@Test
-	void shouldThrowArrayStoreExceptionWhenTryingToCopyArrayToDifferentTypeDestiny() {
+	void shouldThrowArrayStoreExceptionWhenCopyingToDifferentType() {
 		assertThrows(ArrayStoreException.class, () -> {
 			System.arraycopy(SystemData.INT_ARRAY, 0, SystemData.DOUBLE_DESTINATION_ARRAY, 0,
 					SystemData.INT_ARRAY.length);
@@ -42,7 +42,7 @@ class SystemTest {
 	}
 
 	@Test
-	void shouldClearPropertyWhenPropertyIsSet() {
+	void shouldClearPropertyWhenSet() {
 		System.setProperty(SystemData.PROPERTY_KEY.getValue(), SystemData.PROPERTY_VALUE.getValue());
 		System.clearProperty(SystemData.PROPERTY_KEY.getValue());
 
@@ -50,7 +50,7 @@ class SystemTest {
 	}
 
 	@Test
-	void shouldThrowIllegalArgumentException() {
+	void shouldThrowIllegalArgumentExceptionWhenClearingEmptyKey() {
 		assertThrows(IllegalArgumentException.class, () -> {
 			System.clearProperty("");
 		});
@@ -65,7 +65,7 @@ class SystemTest {
 	}
 
 	@Test
-	void shouldInitializeSystemProperties() {
+	void shouldInitializeSystemPropertiesWithOSInfo() {
 		System.setProperties(null);
 
 		assertNotNull(System.getProperties());
@@ -79,31 +79,25 @@ class SystemTest {
 	}
 
 	@Test
-	void shouldReturnZeroWhenIdentifyingHashCodeOfNullReference() {
+	void shouldReturnZeroHashCodeForNullReference() {
 		assertEquals(0, System.identityHashCode(SystemData.NULL_OBJECT));
 	}
 
 	@Test
-	void shouldThrowNullPointerExceptionWhenAttemptingToQueryPresenceOfNullKey() {
+	void shouldThrowNullPointerExceptionForNullKeyInEnv() {
 		Map<String, String> env = System.getenv();
-
-		assertThrows(NullPointerException.class, () -> {
-			env.get(null);
-		});
+		assertThrows(NullPointerException.class, () -> env.get(null));
 	}
 
 	@SuppressWarnings("unlikely-arg-type")
 	@Test
-	void shouldThrowClassCastExceptionWhenAttemptingToQueryValueThatIsNotString() {
+	void shouldThrowClassCastExceptionForInvalidEnvKeyType() {
 		Map<String, String> env = System.getenv();
-
-		assertThrows(ClassCastException.class, () -> {
-			env.get(10);
-		});
+		assertThrows(ClassCastException.class, () -> env.get(10));
 	}
 
 	@Test
-	void shouldAlwaysReturnSystemDependentLineSeparator() {
+	void shouldReturnSystemDependentLineSeparator() {
 		System.setProperty("line.separator", SystemData.WIN_LINE_SEPARATOR.getValue());
 		assertEquals(System.lineSeparator(), SystemData.UNIX_LINE_SEPARATOR.getValue());
 	}
@@ -111,5 +105,23 @@ class SystemTest {
 	@Test
 	void shouldContainSpecificSystemEnvVariable() {
 		assertTrue(System.getenv().containsKey("GMAIL_USERNAME"));
+	}
+
+	@Test
+	void shouldReturnDefaultValueForNonExistingKey() {
+		assertEquals("default", System.getProperty("nonExistentKey", "default"));
+	}
+
+	@Test
+	void shouldCaptureTimeProgressionWithNanoTime() {
+		long firstCall = System.nanoTime();
+		long secondCall = System.nanoTime();
+		assertTrue(secondCall > firstCall);
+	}
+
+	@Test
+	void shouldContainSystemDependentPathSeparator() {
+		String path = SystemData.PATH_ENV.getValue().replaceAll(":", "");
+		assertTrue(path.contains(SystemData.WIN_FILE_SEPARATOR.getValue()));
 	}
 }
