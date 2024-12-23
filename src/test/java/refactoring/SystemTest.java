@@ -153,4 +153,20 @@ class SystemTest {
 
 		file.delete();
 	}
+
+	@Test
+	void shouldPrintNullWhenObjectIsNull() {
+		System.out.print(SystemData.NULL_OBJECT);
+		String output = SystemData.NEW_OUT.toString();
+
+		assertEquals("null", output);
+	}
+
+	@Test
+	void shouldPrintHashCodeWhenObjectDoesNotOverrideToString() {
+		System.out.print(SystemData.OBJ_ONE);
+		String output = SystemData.NEW_OUT.toString();
+
+		assertTrue(output.matches(".*@([0-9a-fA-F]+)"));
+	}
 }
