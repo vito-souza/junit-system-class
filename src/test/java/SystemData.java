@@ -1,4 +1,3 @@
-package refactoring;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

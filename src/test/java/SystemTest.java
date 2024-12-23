@@ -1,4 +1,3 @@
-package refactoring;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,6 +21,7 @@ class SystemTest {
 	@BeforeEach
 	public void setUp() {
 		System.setOut(new PrintStream(SystemData.NEW_OUT));
+		SystemData.NEW_OUT.reset();
 	}
 
 	@AfterEach
